@@ -23,7 +23,7 @@ int last_cutting(char **buf_store, char **line)
 		free(*buf_store);
 		return (-1);
 	}
-	free(buf_store);
+	free(*buf_store);
 	*buf_store = NULL;
 	return (0);
 }
@@ -35,7 +35,7 @@ int get_next_line(int fd, char **line)
 	ssize_t     rtn_read;
 	char		*tmp;
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+	if (fd > OPEN_MAX || fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
 	while ((rtn_read = read(fd, buf, BUFFER_SIZE)) > 0 )
 	{

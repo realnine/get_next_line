@@ -1,26 +1,69 @@
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-char    *ft_strjoin(char const *s1, char const *s2)
+int cutting(char **buf_store, char **line, char *ptr_next)
 {
-	char    *ptr;
-	size_t  siz;
-	int     i;
-	int     j;
+	char *tmp;
 
-	if (!s1 && !s2)
-		return (NULL);
-	else if (!(s1) || !(s2))
-		return (!(s1) ? strdup(s2) : strdup(s1));
-	siz = strlen(s1) + strlen(s2) + 1;
-	ptr = malloc(siz);
-	if (!ptr)
-		return (NULL);
-	i = -1;
-	while (s1[++i])
-		ptr[i] = s1[i];
-	j = 0;
-	while (s2[j])
-		ptr[i++] = s2[j++];
-	ptr[i] = '\0';
-	return (ptr);
+	*ptr_next = '\0';
+	if ((*line = strdup(*buf_store)) == NULL)
+	{
+		free(*buf_store);
+		return (-1);
+	}
+	tmp = *buf_store;
+	*buf_store = strdup(ptr_next + 1);
+	free(tmp);
+	return (1);
+}
+
+int last_cutting(char **buf_store, char **line)
+{
+	if ((*line = strdup(*buf_store)) == NULL)
+	{
+		free(*buf_store);
+		return (-1);
+	}
+	free(*buf_store);
+	*buf_store = NULL;
+	return (0);
+}
+
+int get_next_line(int fd, char **line)
+{
+	char        buf[BUFFER_SIZE + 1];
+	static char *buf_store[OPEN_MAX] = { 0, };
+	ssize_t     rtn_read;
+	char		*tmp;
+
+	if (fd > OPEN_MAX || fd < 0 || !line || BUFFER_SIZE <= 0)
+		return (-1);
+	while ((rtn_read = read(fd, buf, BUFFER_SIZE)) > 0 )
+	{
+		buf[rtn_read] = '\0';
+		tmp = buf_store[fd];
+		buf_store[fd] = ft_strjoin(buf_store[fd], buf);
+		if (tmp != NULL)
+			free(tmp);
+		if ((tmp = strchr(buf_store[fd], '\n')) != NULL)
+			return (cutting(&buf_store[fd], line, tmp));
+	}
+	if (rtn_read == 0)
+	{
+		if(buf_store[fd] == NULL)
+		{
+			*line = strdup("");
+			return (0);
+		}
+		else if ((tmp = strchr(buf_store[fd], '\n')) != NULL)
+			return (cutting(&buf_store[fd], line, tmp));
+		else if (tmp == NULL)
+			return (last_cutting(&buf_store[fd], line));
+	}
+	
+		if(buf_store[fd] != NULL)
+		{
+			free(buf_store[fd]);
+			buf_store[fd] = NULL;
+		}
+		return (-1);
 }
