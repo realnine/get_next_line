@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinglee <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/02 15:57:50 by jinglee           #+#    #+#             */
+/*   Updated: 2021/04/02 16:34:35 by jinglee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-void    *ft_memcpy(void *dst, const void *src, size_t n)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	const void  *dstp = dst;
+	const void	*dstp = dst;
 
 	if (!dst && !src)
 		return (NULL);
@@ -11,17 +23,7 @@ void    *ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-size_t  ft_strlen(const char *s)
-{
-	size_t  i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-char    *ft_strchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
 	while (1)
 	{
@@ -33,9 +35,9 @@ char    *ft_strchr(const char *s, int c)
 	}
 }
 
-size_t  ft_strlcpy(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	size_t  srcsize;
+	size_t	srcsize;
 
 	if (!dst || !src)
 		return (0);
@@ -50,10 +52,10 @@ size_t  ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	return (srcsize);
 }
 
-char    *ft_strdup(const char *s1)
+char	*ft_strdup(const char *s1)
 {
-	const size_t    len = ft_strlen(s1);
-	char            *dst;
+	const size_t	len = ft_strlen(s1);
+	char			*dst;
 
 	if (!(dst = malloc((len + 1) * sizeof(char))))
 		return (NULL);
@@ -61,12 +63,12 @@ char    *ft_strdup(const char *s1)
 	return (dst);
 }
 
-char    *ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char    *ptr;
-	size_t  siz;
-	int     i;
-	int     j;
+	char	*ptr;
+	size_t	siz;
+	int		i;
+	int		j;
 
 	if (!s1 && !s2)
 		return (NULL);
@@ -85,10 +87,3 @@ char    *ft_strjoin(char const *s1, char const *s2)
 	ptr[i] = '\0';
 	return (ptr);
 }
-
-
-
-
-
-
-

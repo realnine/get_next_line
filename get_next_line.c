@@ -1,24 +1,50 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinglee <jinglee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/02 16:39:31 by jinglee           #+#    #+#             */
+/*   Updated: 2021/04/02 16:45:46 by jinglee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-int cutting(char **buf_store, char **line, char *ptr_next)
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+int		cutting(char **buf_store, char **line, char *ptr_next)
 {
 	char *tmp;
 
 	*ptr_next = '\0';
-	if ((*line = ft_strdup(*buf_store)) == NULL)
+	if (!(*line = ft_strdup(*buf_store)))
 	{
 		free(*buf_store);
 		return (-1);
 	}
 	tmp = *buf_store;
-	*buf_store = ft_strdup(ptr_next + 1);
+	if (!(*buf_store = ft_strdup(ptr_next + 1)))
+	{
+		free(tmp);
+		return (-1);
+	}
 	free(tmp);
 	return (1);
 }
 
-int last_cutting(char **buf_store, char **line)
+int		last_cutting(char **buf_store, char **line)
 {
-	if ((*line = ft_strdup(*buf_store)) == NULL)
+	if (!(*line = ft_strdup(*buf_store)))
 	{
 		free(*buf_store);
 		return (-1);
@@ -28,41 +54,36 @@ int last_cutting(char **buf_store, char **line)
 	return (0);
 }
 
-int get_next_line(int fd, char **line)
+int		get_next_line(int fd, char **line)
 {
-	char        buf[BUFFER_SIZE + 1];
-	static char *buf_store[OPEN_MAX];
-	ssize_t     rtn_read;
+	char		buf[BUFFER_SIZE + 1];
+	static char	*buf_store[OPEN_MAX];
+	ssize_t		rtn_read;
 	char		*tmp;
 
 	if (fd > OPEN_MAX || fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
-	while ((rtn_read = read(fd, buf, BUFFER_SIZE)) > 0 )
+	while ((rtn_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[rtn_read] = '\0';
 		tmp = buf_store[fd];
 		buf_store[fd] = ft_strjoin(buf_store[fd], buf);
 		free(tmp);
-		if ((tmp = ft_strchr(buf_store[fd], '\n')) != NULL)
+		if ((tmp = ft_strchr(buf_store[fd], '\n')))
 			return (cutting(&buf_store[fd], line, tmp));
 	}
 	if (rtn_read == 0)
 	{
-		if(buf_store[fd] == NULL)
+		if (buf_store[fd] == NULL)
 		{
 			*line = ft_strdup("");
 			return (0);
 		}
-		else if ((tmp = ft_strchr(buf_store[fd], '\n')) != NULL)
+		else if ((tmp = ft_strchr(buf_store[fd], '\n')))
 			return (cutting(&buf_store[fd], line, tmp));
-		else if (tmp == NULL)
-			return (last_cutting(&buf_store[fd], line));
+		return (last_cutting(&buf_store[fd], line));
 	}
-	
-		if(buf_store[fd] != NULL)
-		{
-			free(buf_store[fd]);
-			buf_store[fd] = NULL;
-		}
-		return (-1);
+	free(buf_store[fd]);
+	buf_store[fd] = NULL;
+	return (-1);
 }
