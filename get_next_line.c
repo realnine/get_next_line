@@ -6,7 +6,7 @@
 /*   By: jinglee <jinglee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 16:39:31 by jinglee           #+#    #+#             */
-/*   Updated: 2021/04/02 16:45:46 by jinglee          ###   ########.fr       */
+/*   Updated: 2021/04/05 14:55:10 by jinglee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ int		cutting(char **buf_store, char **line, char *ptr_next)
 
 int		last_cutting(char **buf_store, char **line)
 {
+	if (*buf_store == NULL)
+	{
+		*line = ft_strdup("");
+		return (0);
+	}
 	if (!(*line = ft_strdup(*buf_store)))
 	{
 		free(*buf_store);
@@ -66,20 +71,13 @@ int		get_next_line(int fd, char **line)
 	while ((rtn_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[rtn_read] = '\0';
-		tmp = buf_store[fd];
 		buf_store[fd] = ft_strjoin(buf_store[fd], buf);
-		free(tmp);
 		if ((tmp = ft_strchr(buf_store[fd], '\n')))
 			return (cutting(&buf_store[fd], line, tmp));
 	}
 	if (rtn_read == 0)
 	{
-		if (buf_store[fd] == NULL)
-		{
-			*line = ft_strdup("");
-			return (0);
-		}
-		else if ((tmp = ft_strchr(buf_store[fd], '\n')))
+		if ((tmp = ft_strchr(buf_store[fd], '\n')))
 			return (cutting(&buf_store[fd], line, tmp));
 		return (last_cutting(&buf_store[fd], line));
 	}

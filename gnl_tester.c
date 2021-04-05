@@ -258,5 +258,6 @@ int main()
 	else
 		printf("Not Good, you don't return -1 if no FD\n\n");
 
+	system("leaks a.out > leaks_result; cat leaks_result | grep leaked && rm -rf leaks_result");
 	return (0);
 }

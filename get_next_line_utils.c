@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinglee <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jinglee <jinglee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/02 15:57:50 by jinglee           #+#    #+#             */
-/*   Updated: 2021/04/02 16:34:35 by jinglee          ###   ########.fr       */
+/*   Created: 2021/04/05 15:05:20 by jinglee           #+#    #+#             */
+/*   Updated: 2021/04/05 15:05:31 by jinglee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 
 char	*ft_strchr(const char *s, int c)
 {
+	if (!s)
+		return (NULL);
 	while (1)
 	{
 		if (*s == (char)c)
@@ -63,7 +65,7 @@ char	*ft_strdup(const char *s1)
 	return (dst);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ptr;
 	size_t	siz;
@@ -81,6 +83,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	i = -1;
 	while (s1[++i])
 		ptr[i] = s1[i];
+	free(s1);
 	j = 0;
 	while (s2[j])
 		ptr[i++] = s2[j++];
