@@ -32,7 +32,7 @@ int main(void)
 	int ret;
 	char *line;  // 읽어들일 한 줄이 담겨있는 메모리를 가리킬 포인터
   
-  if (!(fd = open("files/alphabet", O_RDONLY)))
+ 	if (!(fd = open("files/alphabet", O_RDONLY)))
 	{
 		printf("\nError in open\n");
 		return (1);
@@ -40,7 +40,7 @@ int main(void)
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		printf("|%s\n", line);
-    free(line);
+    		free(line);
 	}
 	printf("|%s\n", line);
 	free(line);
