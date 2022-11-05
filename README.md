@@ -6,7 +6,7 @@ newline('/n') 으로 이루어진 text file을 한 줄 씩 읽어들이는 funct
 
 ```c
 int get_next_line(int fd, char **line)
-```
+```  
 
 <parameter>
 * fd : 파일디스크립터
