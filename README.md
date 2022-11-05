@@ -1,5 +1,5 @@
 # get_next_line 소개
-newline 으로 이루어진 text file을 한 줄 씩 읽어들이는 function를 구현합니다
+newline('/n') 으로 이루어진 text file을 한 줄 씩 읽어들이는 function를 구현합니다  
 (text file 데이터를 한 줄씩 가져와 데이터를 parsing하기 위함)
 
 # get_next_line 형태
